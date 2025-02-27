@@ -1,6 +1,6 @@
 package com.digitalfutures.academy.spring_demo;
 
-import com.digitalfutures.academy.spring_demo.model.user.User;
+import com.digitalfutures.academy.spring_demo.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,6 +1,6 @@
 package com.digitalfutures.academy.spring_demo.helpers;
 
-import com.digitalfutures.academy.spring_demo.model.user.User;
+import com.digitalfutures.academy.spring_demo.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
