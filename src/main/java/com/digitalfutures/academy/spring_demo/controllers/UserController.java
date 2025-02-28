@@ -48,7 +48,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/api/users")
+    @GetMapping(value = "/api/users/search")
     public User searchForUserByUsername(@RequestParam String username) {
         return userService.findByUsername(username);
     }

@@ -1,4 +1,4 @@
-package com.digitalfutures.academy.spring_demo.dto;
+package com.digitalfutures.academy.spring_demo.dto.request;
 
 import com.digitalfutures.academy.spring_demo.shared.FullName;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package com.digitalfutures.academy.spring_demo.dto;
+package com.digitalfutures.academy.spring_demo.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.digitalfutures.academy.spring_demo.controllers;
 
-import com.digitalfutures.academy.spring_demo.dto.LoginRequest;
-import com.digitalfutures.academy.spring_demo.dto.RegistrationRequest;
+import com.digitalfutures.academy.spring_demo.dto.request.LoginRequest;
+import com.digitalfutures.academy.spring_demo.dto.request.RegistrationRequest;
 import com.digitalfutures.academy.spring_demo.model.User;
 import com.digitalfutures.academy.spring_demo.repositories.UserRepository;
 import com.digitalfutures.academy.spring_demo.service.PasswordService;
@@ -9,7 +9,6 @@ import com.digitalfutures.academy.spring_demo.service.UserService;
 import com.digitalfutures.academy.spring_demo.utils.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -97,4 +96,6 @@ public class AuthController {
                             "error", e.getMessage()));
         }
     }
+
+
 }
