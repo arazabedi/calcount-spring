@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
 public class JwtUtil {
     // In production, this should be stored securely (e.g., environment variables, vault)
     // Secret key should be at least 256 bits (32 bytes) for HS256
-    @Value("${jwt.secret-key:5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     private final long EXPIRATION_TIME = 60; // 60 minutes

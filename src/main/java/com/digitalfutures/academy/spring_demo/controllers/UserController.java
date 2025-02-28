@@ -3,30 +3,21 @@ package com.digitalfutures.academy.spring_demo.controllers;
 import com.digitalfutures.academy.spring_demo.model.User;
 import com.digitalfutures.academy.spring_demo.service.UserService;
 import com.digitalfutures.academy.spring_demo.shared.WeightLogEntry;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @Validated
+@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping(value = "/api/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
 
     @GetMapping("api/user/weight-log")
     public ResponseEntity<?> getWeightLog() {
@@ -38,5 +29,27 @@ public class UserController {
 
         // Return logs
         return ResponseEntity.ok(Map.of("weightLogs", weightLogs));
+    }
+
+    @PostMapping("api/user/weight-log")
+    public ResponseEntity<?> postWeightLogEntry(@RequestBody WeightLogEntry weightLogEntry) {
+        // Get authenticated user
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Add weight log entry
+        userService.addWeightLogEntry(currentUser.getUsername(), weightLogEntry);
+
+        // Return success
+        return ResponseEntity.ok(Map.of("message", "Weight log entry added successfully"));
+    }
+
+    @GetMapping(value = "/api/users")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping(value = "/api/users")
+    public User searchForUserByUsername(@RequestParam String username) {
+        return userService.findByUsername(username);
     }
 }

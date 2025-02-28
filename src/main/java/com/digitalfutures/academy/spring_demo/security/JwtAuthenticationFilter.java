@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     // doFilterInternal is a protected abstract method in OncePerRequestFilter...
-    // ... that we override in order to implement our custom filter logic
+    // ... that we override in order to implement our own custom filter logic
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 

@@ -62,13 +62,12 @@ public class UserService {
     }
 
     // Add a weight log entry to a user's weight log
-    public User addWeightLogEntry(String username, WeightLogEntry entry) {
+    public void addWeightLogEntry(String username, WeightLogEntry entry) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new RuntimeException("User not found with username: " + username);
         }
-
         user.getWeightLog().add(entry);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }

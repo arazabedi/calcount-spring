@@ -30,12 +30,6 @@ public class FullName {
     @Pattern(regexp = "^[a-zA-Z\\s-']+$", message = "Last name can only contain letters, spaces, hyphens, and apostrophes")
     private String lastName;
 
-//    public FullName(String firstName, String middleName, String lastName) {
-//        this.firstName = firstName;
-//        this.middleName = middleName;
-//        this.lastName = lastName;
-//    }
-
     public String getFullName() {
         return String.format("%s %s %s", firstName, middleName, lastName);
     }
