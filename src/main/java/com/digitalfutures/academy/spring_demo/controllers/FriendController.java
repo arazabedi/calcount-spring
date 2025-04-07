@@ -2,6 +2,7 @@ package com.digitalfutures.academy.spring_demo.controllers;
 
 import com.digitalfutures.academy.spring_demo.model.User;
 import com.digitalfutures.academy.spring_demo.service.FriendService;
+import com.digitalfutures.academy.spring_demo.shared.FriendData;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +15,13 @@ import java.util.Map;
 @RestController
 @Validated
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class FriendController {
 
     private final FriendService friendService;
 
     @GetMapping("api/friends/weight-logs")
-    public List<Map<String, Object>> getAllFriendWeightLogs() {
+    public List<FriendData> getAllFriendWeightLogs() {
         // Get authenticated user
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -39,8 +41,8 @@ public class FriendController {
         return ResponseEntity.ok(Map.of("message", "Friend request sent successfully"));
     }
 
-    @PutMapping("/api/friends/requests")
-    public ResponseEntity<?> acceptFriendRequest(@RequestParam String _id){
+    @PutMapping("/api/friends/requests/{_id}")
+    public ResponseEntity<?> acceptFriendRequest(@PathVariable String _id){
         // Get authenticated user
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

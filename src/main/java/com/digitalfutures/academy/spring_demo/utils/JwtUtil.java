@@ -68,6 +68,7 @@ public class JwtUtil {
         }
     }
 
+
     private boolean isTokenExpired(String token) {
         try {
             Date expirationDate = extractAllClaims(token).getExpiration();

@@ -2,6 +2,10 @@ package com.digitalfutures.academy.spring_demo.controllers;
 
 import com.digitalfutures.academy.spring_demo.dto.request.LoginRequest;
 import com.digitalfutures.academy.spring_demo.dto.request.RegistrationRequest;
+import com.digitalfutures.academy.spring_demo.dto.request.VerificationRequest;
+import com.digitalfutures.academy.spring_demo.dto.response.LoginResponse;
+import com.digitalfutures.academy.spring_demo.dto.response.RegistrationResponse;
+import com.digitalfutures.academy.spring_demo.dto.response.VerificationResponse;
 import com.digitalfutures.academy.spring_demo.model.User;
 import com.digitalfutures.academy.spring_demo.repositories.UserRepository;
 import com.digitalfutures.academy.spring_demo.service.PasswordService;
@@ -13,13 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 @AllArgsConstructor
+@CrossOrigin(origins = "*") // Allows CORS requests from any origin
 public class AuthController {
 
     // Use final + @AllArgsConstructor instead of discouraged @Autowire to auto-handle injection in Spring
@@ -45,7 +48,7 @@ public class AuthController {
         }
 
         // Register the user
-        User registeredUser = userService.registerUser(
+        RegistrationResponse registeredUser = userService.registerUser(
                 registrationRequest.getUsername(),
                 registrationRequest.getFullName(),
                 registrationRequest.getEmail(),
@@ -82,10 +85,8 @@ public class AuthController {
             // Generate JWT token
             String token = jwtUtil.generateToken(user.getUsername());
 
-            // Create response with token and user info
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("user", user);
+            // Create LoginResponse DTO object with the token and user info
+            LoginResponse response = new LoginResponse(user, token);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -97,5 +98,39 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyToken(@RequestHeader("Authorization") String authorizationHeader, @RequestBody VerificationRequest verificationRequest) {
+        // Ensure the Authorization header is present and contains the bearer prefix
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Authorization header is missing or invalid"));
+        }
 
+        // Extract username from verificationRequest
+        String username = verificationRequest.getUsername();
+
+        // Extract the token from the authorization header and remove the bearer prefix
+        String token = authorizationHeader.substring(7);
+
+        // Check if the token is valid
+        if (!jwtUtil.validateToken(token, username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Invalid token"));
+        }
+
+        // Get the user from the database
+        User user = userService.findByUsername(username);
+
+        // Check if the user exists
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "User not found"));
+        }
+
+        // Create the VerificationResponse DTO with the user's data
+        VerificationResponse response = new VerificationResponse(user);
+
+        // Return the user data
+        return ResponseEntity.ok(Map.of("user", response));
+    }
 }

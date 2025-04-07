@@ -1,10 +1,12 @@
 package com.digitalfutures.academy.spring_demo.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 // Handles hashing and verification of passwords using BCrypt
 @Service // Tells Spring to manage the dependency injection
+@AllArgsConstructor
 public class PasswordService {
     private final PasswordEncoder passwordEncoder; // Dependency injected by Spring
 
@@ -15,10 +17,6 @@ public class PasswordService {
      * - Testability: Mocking is easier for unit tests.
      * - Spring Lifecycle: Spring automatically handles the injection in a memory-efficient way.
      */
-
-    public PasswordService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public String hashPassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);

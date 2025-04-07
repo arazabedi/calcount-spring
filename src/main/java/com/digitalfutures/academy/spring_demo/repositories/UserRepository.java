@@ -2,6 +2,9 @@ package com.digitalfutures.academy.spring_demo.repositories;
 
 import com.digitalfutures.academy.spring_demo.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
+import java.util.List;
 
 // Spring automatically provides CRUD operations and generates queries based on method names added to the interface
 public interface UserRepository extends MongoRepository <User, String> {
@@ -10,5 +13,7 @@ public interface UserRepository extends MongoRepository <User, String> {
     User findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    void deleteByUsername(String noraarmstrong);
+    List<User> findByUsernameContaining(String username);
 }
 
